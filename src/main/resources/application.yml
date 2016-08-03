@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    schema: schema_script.sql
+    data: seed-data.sql
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ticketdb
+    username: postgres
+    password: postgres
+    
+app: 
+  ticket: 
+    holdExpiryTime: 2
+    reserveAlDone: Already made the reservation with the same hold id 
+    reserveErrorCd: 410
+    emailError: Email is different from what enetered while holding the seat
+    emailErrorCd: 411
+    holdExpired: Hold is already expired
+    holdExprCd: 412
+    noFullReqSeatsAvl: Requested Seats are not fully Available. Only Available are
+    noReqSeatsAvl: Requested Seats are not Available.
+    seatsAvlErrorCd: 413
+    genError: Service is unavailable now 
+    genErrorCode: 500
+    minLevel : 1
+    maxLevel : 4
+    
