@@ -4,6 +4,16 @@ Ticket application services
 Implementation of a simple ticket service that facilitates the discovery, temporary hold, and final reservation of seats within a high-demand performance
 venue.
 
+Steps to Build and Run the application via commandline:
+
+1. git clone https://github.com/arun002/TicketApplication.git
+
+2. cd TicketApplication
+
+3. mvn package
+
+4. java -jar target/TicketApp-0.0.1-SNAPSHOT.jar
+
 #APIs
 
 #Get Available Seats :
