@@ -107,55 +107,6 @@ public class SeatDAO {
 			return seats.get(0);
 		}
 	}
-	
-//	public List<Seat> readSeatsByHoldId(long holdId){
-//		String SQL = "SELECT "+ listOfFields+" FROM SEATS WHERE HOLD_ID = ?";
-//		List<Seat> seats = jdbcTemplate.query(SQL, new Object[]{holdId}, new RowMapper<Seat>() {
-//
-//			@Override
-//			public Seat mapRow(ResultSet res, int arg1) throws SQLException {
-//				Seat seat = new Seat();
-//				seat.setId(res.getLong("SEAT_ID"));
-//				seat.setSeatHoldId(res.getLong("HOLD_ID"));
-//				seat.setLevelId(res.getInt("LEVEL_ID"));
-//				seat.setRowNumber(res.getInt("ROW_NUM"));
-//				seat.setSeatNumber(res.getInt("SEAT_NUM"));
-//				//seat.setReservationId(res.getLong("RESERVATION_ID"));
-//				return seat;
-//			}
-//		});
-//		return seats;
-//	}
-	
-//	public Seat readSeatsByHoldIdNoReservation(long holdId){
-//		String SQL = "SELECT "+ listOfFields+" FROM SEATS WHERE HOLD_ID = ? AND RESERVATION_ID IS NULL";
-//		List<Seat> seats = jdbcTemplate.query(SQL, new Object[]{holdId}, new RowMapper<Seat>() {
-//			@Override
-//			public Seat mapRow(ResultSet res, int arg1) throws SQLException {
-//				Seat seat = new Seat();
-//				seat.setId(res.getLong("SEAT_ID"));
-//				seat.setSeatHoldId(res.getLong("HOLD_ID"));
-//				seat.setLevelId(res.getInt("LEVEL_ID"));
-//				seat.setRowNumber(res.getInt("ROW_NUM"));
-//				seat.setSeatNumber(res.getInt("SEAT_NUM"));
-//				seat.setReservationId(res.getLong("RESERVATION_ID"));
-//				return seat;
-//			}
-//		});
-//		if(null == seats || seats.isEmpty()){
-//			return null;
-//		}
-//		else{
-//			return seats.get(0);
-//		}
-//	}
-	
-//	public int updateSeatsForReservation(Seat seat){
-//		String SQL = "UPDATE SEATS SET RESERVATION_ID = ? WHERE HOLD_ID=?";
-//		int rowsUpdated = jdbcTemplate.update(SQL, seat.getReservationId(), seat.getSeatHoldId()) ;
-//		return rowsUpdated;
-//		
-//	}
 
 	public int deleteSeatsForHoldIds(List<Long> seatHoldIds){
 		String SQL = "DELETE FROM SEATS WHERE HOLD_ID in (:holdIds)";

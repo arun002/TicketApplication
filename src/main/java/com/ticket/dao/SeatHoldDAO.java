@@ -17,7 +17,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.ticket.beans.Seat;
 import com.ticket.beans.SeatHold;
 import com.ticket.util.TicketApplicationUtil;
 

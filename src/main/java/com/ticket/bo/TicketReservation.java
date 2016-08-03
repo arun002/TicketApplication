@@ -138,47 +138,6 @@ public class TicketReservation {
 					Set<Map.Entry<Integer,Integer>> entrySet = seatsAvlMap.entrySet();
 					
 					for(Entry<Integer,Integer> entry : entrySet){
-//						Seat seat = seatDAO.findMaxSeatNumberByLevel(entry.getKey());
-//						Venue venue = venueMap.get(entry.getKey());
-//						int maxSeatsInRow = venue.getSeatsRow();
-//						int seatCount = 1;
-//						if(null != seat){
-//							int maxRow = seat.getRowNumber();
-//							int maxSeat = seat.getSeatNumber();
-//							for(int count=1; count<=entry.getValue(); count++){
-//								Seat venueSeat = new Seat();
-//								venueSeat.setSeatHoldId(seatHold.getId());
-//								venueSeat.setLevelId(entry.getKey());
-//								venueSeat.setReservationId(0);
-//								if((maxSeat+seatCount) > maxSeatsInRow){
-//									maxSeat = 0;
-//									seatCount = 1;
-//									maxRow++;
-//								}
-//								venueSeat.setRowNumber(maxRow);
-//								venueSeat.setSeatNumber(maxSeat+seatCount);
-//								seatDAO.createSeat(venueSeat);
-//								seatHold.getSeats().add(venueSeat);
-//								seatCount++; 
-//							}
-//						}else{
-//							int rowCount = 1;
-//							for(int count=1; count<=entry.getValue(); count++){
-//								Seat venueSeat = new Seat();
-//								venueSeat.setSeatHoldId(seatHold.getId());
-//								venueSeat.setLevelId(entry.getKey());
-//								venueSeat.setReservationId(0);
-//								if(seatCount > maxSeatsInRow){
-//									seatCount = 1;
-//									rowCount++;
-//								}
-//								venueSeat.setRowNumber(rowCount);
-//								venueSeat.setSeatNumber(seatCount);
-//								seatDAO.createSeat(venueSeat);
-//								seatHold.getSeats().add(venueSeat);
-//								seatCount++;
-//							}
-//						}
 						List<Seat> occupiedSeats = seatDAO.readSeatsNotAvailablebyLevel(entry.getKey());
 						Map<Integer,List<Integer>> occupiedSeatsMap = new HashMap<>();//Map of occupied seats for a level: key - row number , value - list of occupied seat nums
 						Venue venue = venueMap.get(entry.getKey());
@@ -239,29 +198,6 @@ public class TicketReservation {
 									count++;
 								}
 								seatNum++;
-//								for(int occupiedSeatNumber : occupiedSeatNums){
-//									if(seatNum == occupiedSeatNumber){
-//										// Seat is already occupied
-//									}else{
-//										Seat venueSeat = new Seat();
-//										venueSeat.setSeatHoldId(seatHold.getId());
-//										venueSeat.setLevelId(entry.getKey());
-//										venueSeat.setRowNumber(rowNum);
-//										venueSeat.setSeatNumber(seatNum);
-//										seatDAO.createSeat(venueSeat);
-//										//Update occupiedSeatsMap
-//										occupSeatNumList = occupiedSeatsMap.get(rowNum);
-//										if(null != occupSeatNumList){
-//											occupSeatNumList.add(seatNum);
-//										}
-//										else{
-//											occupSeatNumList = new ArrayList<>();
-//											occupSeatNumList.add(seatNum);
-//											occupiedSeatsMap.put(rowNum, occupSeatNumList);
-//										}
-//										break;
-//									}
-//								}
 							}
 						}
 						else{
@@ -301,7 +237,6 @@ public class TicketReservation {
 			//Read the seat hold for seat hold id
 			SeatHold seatHold = seatHoldDAO.readByHoldId(seatHoldId);
 			if(null != seatHold){
-				//List<Seat> seats = seatDAO.readSeatsByHoldId(seatHold.getId());
 				//Check the hold id is already reserved or not
 				if(seatHold.getReservationId() != 0 ){
 					throw new TicketServiceException(serviceProperties.getReserveAlDone()+" "+seatHold.getId(),serviceProperties.getReserveErrorCd());
@@ -309,15 +244,6 @@ public class TicketReservation {
 				else if(null != seatHold.getEmail() && !seatHold.getEmail().equalsIgnoreCase(cutomerEmail)){
 					throw new TicketServiceException(serviceProperties.getEmailError(),serviceProperties.getEmailErrorCd());
 				}
-//				for(Seat seat : seats){
-//					if(seat.getReservationId() != 0 ){
-//						throw new TicketServiceException(serviceProperties.getReserveAlDone()+" "+seatHold.getId(),serviceProperties.getReserveErrorCd());
-//					}
-//					else if(null != seatHold.getEmail() && !seatHold.getEmail().equalsIgnoreCase(cutomerEmail)){
-//						throw new TicketServiceException(serviceProperties.getEmailError(),serviceProperties.getEmailErrorCd());
-//					}
-//					break;
-//				}
 				//Check the hold id expired or not
 				if(checkHoldExpired(seatHold)){
 					throw new TicketServiceException(serviceProperties.getHoldExpired(),serviceProperties.getHoldExprCd());
@@ -330,13 +256,6 @@ public class TicketReservation {
 					reservation.setEmail(cutomerEmail);
 					reservation.setNumSeats(seatHold.getNumSeats());
 					reservDAO.createReservation(reservation);
-					//Update the seats with the reservation id
-//					if(null!= seats && seats.size() > 0){
-//						for(Seat seat : seats){
-//							seat.setReservationId(reservation.getId());
-//							seatDAO.updateSeatsForReservation(seat);
-//						}
-//					}
 					//Update seat hold with reservation id
 					seatHold.setReservationId(reservation.getId());
 					seatHoldDAO.updateSeatHoldWithReservation(seatHold); 
@@ -379,29 +298,16 @@ public class TicketReservation {
 		//Get all the expired hold ids from Seat Hold 
 		List<SeatHold> seatHoldList = seatHoldDAO.readAllExpiredHolds(serviceProperties.getHoldExpiryTime());
 		List<Long> holdIds = new ArrayList<>();
-		//List<Seat> filteredSeats = new ArrayList<>();
 		for(SeatHold seatHold : seatHoldList){
 			holdIds.add(seatHold.getId());
-			//Filter the hold ids which has no reservation
-			//Seat seat = seatDAO.readSeatsByHoldIdNoReservation(seatHold.getId());
-			//if(null != seat){
-			//	filteredSeats.add(seat);
-			//}
 		}
 		if(null != holdIds && holdIds.size() >0){
-			//List<Seat> filteredSeats = seatDAO.readSeatsByHoldIdNoReservation(holdIds);
-			//List<Long> filteredHoldIds = new ArrayList<>();
-			//for(Seat seat : filteredSeats){
-			//	filteredHoldIds.add(seat.getSeatHoldId());
-			//}
-			//if(null != filteredHoldIds && filteredHoldIds.size() >0){
-				// Delete all the expired hold ids from seats
-				int seatRows = seatDAO.deleteSeatsForHoldIds(holdIds);
-				System.out.println("seatRows deleted "+seatRows);
-				//Delete all the expired hold ids from seat hold
-				int seatHoldRows = seatHoldDAO.deleteExpiredHoldIds(holdIds);
-				System.out.println("seatHoldRows deleted "+seatHoldRows);
-			//}
+			// Delete all the expired hold ids from seats
+			int seatRows = seatDAO.deleteSeatsForHoldIds(holdIds);
+			System.out.println("seatRows deleted "+seatRows);
+			//Delete all the expired hold ids from seat hold
+			int seatHoldRows = seatHoldDAO.deleteExpiredHoldIds(holdIds);
+			System.out.println("seatHoldRows deleted "+seatHoldRows);
 		}
 	}
 }
