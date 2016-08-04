@@ -23,9 +23,9 @@ public class ReservationDAO {
 	@Autowired(required=true)
 	private JdbcTemplate jdbcTemplate;
 	
-	private String listOfFields = "RESERVE_ID,CONFIRM_CODE,EMAIL,CONFIRM_DATE,NUM_SEATS";
+	private String listOfFields = "RESERVE_ID,CONFIRM_CODE,EMAIL,CONFIRM_DATE,NUM_SEATS,PRICE";
 	
-	private String fieldsForInsert = "CONFIRM_CODE,EMAIL,CONFIRM_DATE,NUM_SEATS";
+	private String fieldsForInsert = "CONFIRM_CODE,EMAIL,CONFIRM_DATE,NUM_SEATS,PRICE";
 	
 	public List<Reservation> readByLevel(Integer levelId){
 		String SQL = "SELECT "+listOfFields+" FROM RESERVATION WHERE LEVEL_ID = ?";
@@ -38,6 +38,7 @@ public class ReservationDAO {
 				reservation.setEmail(res.getString("EMAIL"));
 				reservation.setConfirmationDate(res.getTimestamp("CONFIRM_DATE"));
 				reservation.setNumSeats(res.getInt("NUM_SEATS"));
+				reservation.setPrice(res.getBigDecimal("PRICE"));
 				return reservation;
 			}
 			
@@ -46,7 +47,7 @@ public class ReservationDAO {
 	}
 	
 	public Reservation createReservation(Reservation reservation){
-		String SQL = "INSERT INTO RESERVATION ( "+fieldsForInsert+" )"+ "VALUES (?,?,?,?)";
+		String SQL = "INSERT INTO RESERVATION ( "+fieldsForInsert+" )"+ "VALUES (?,?,?,?,?)";
 		KeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
@@ -58,6 +59,7 @@ public class ReservationDAO {
 				statement.setString(++i, reservation.getEmail());
 				statement.setTimestamp(++i, TicketApplicationUtil.covertToSQLTimestamp(reservation.getConfirmationDate()) );
 				statement.setInt(++i, reservation.getNumSeats());
+				statement.setBigDecimal(++i, reservation.getPrice());
 				return statement;
 			}
 		}, holder);

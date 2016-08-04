@@ -1,6 +1,9 @@
 package com.ticket.config;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +22,8 @@ public class TicketServiceConfig {
 	
 	public static Integer maxLevel = 4;
 	
+	public static Map<Integer, BigDecimal> levelSeatPrice = new HashMap<>();
+	
 	@Autowired
 	private VenueDAO venueDAO;
 	
@@ -28,6 +33,9 @@ public class TicketServiceConfig {
 		if(null != venueList && venueList.size() > 0){
 			minLevel = venueList.get(0).getLevelId();
 			maxLevel = venueList.get(venueList.size() - 1).getLevelId();
+			for(Venue venue : venueList){
+				levelSeatPrice.put(venue.getLevelId(), venue.getPrice());
+			}
 		}
 	}
 

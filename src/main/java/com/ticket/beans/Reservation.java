@@ -1,5 +1,6 @@
 package com.ticket.beans;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Reservation {
@@ -12,9 +13,11 @@ public class Reservation {
 	
 	private Date confirmationDate;
 	
-	private int numSeats;
+	private Integer numSeats;
 	
 	private Integer holdId;
+	
+	private BigDecimal price;
 
 	public long getId() {
 		return id;
@@ -62,6 +65,14 @@ public class Reservation {
 
 	public void setHoldId(Integer holdId) {
 		this.holdId = holdId;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 }

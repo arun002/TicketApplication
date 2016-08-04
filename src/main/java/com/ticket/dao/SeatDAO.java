@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -104,6 +105,28 @@ public class SeatDAO {
 		else{
 			return seats.get(0);
 		}
+	}
+	
+	public void batchCreateSeats(List<Seat> seats){
+		String SQL = "INSERT INTO SEATS ( "+filedsForInsert+" ) VALUES (?,?,?,?)";
+		jdbcTemplate.batchUpdate(SQL, new BatchPreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement statement, int count) throws SQLException {
+				Seat seat = seats.get(count);
+				int i = 0;
+				statement.setLong(++i, seat.getSeatHoldId());
+				statement.setLong(++i, seat.getLevelId());
+				statement.setInt(++i, seat.getRowNumber());
+				statement.setInt(++i, seat.getSeatNumber());
+			}
+			
+			@Override
+			public int getBatchSize() {
+				return seats.size();
+			}
+		});
+		
 	}
 
 	public int deleteSeatsForHoldIds(List<Long> seatHoldIds){

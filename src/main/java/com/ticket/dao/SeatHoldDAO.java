@@ -26,7 +26,7 @@ public class SeatHoldDAO {
 	@Autowired(required = true)
 	private JdbcTemplate jdbcTemplate; 
 	
-	private String listOfFileds = "HOLD_ID,EMAIL,HOLD_DATE,NUM_SEATS,RESERVATION_ID";
+	private String listOfFileds = "HOLD_ID,EMAIL,HOLD_DATE,NUM_SEATS,RESERVATION_ID,PRICE";
 	private String filedsForInsert = "EMAIL,HOLD_DATE,NUM_SEATS";
 	
 	public SeatHold createHold(SeatHold seatHold){
@@ -60,6 +60,7 @@ public class SeatHoldDAO {
 				seatHold.setHoldDate(res.getTimestamp("HOLD_DATE"));
 				seatHold.setNumSeats(res.getInt("NUM_SEATS"));
 				seatHold.setReservationId(res.getLong("RESERVATION_ID"));
+				seatHold.setTotalSeatPrice(res.getBigDecimal("PRICE"));
 				return seatHold;
 			}
 		});
@@ -85,6 +86,7 @@ public class SeatHoldDAO {
 				seatHold.setHoldDate(res.getTimestamp("HOLD_DATE"));
 				seatHold.setNumSeats(res.getInt("NUM_SEATS"));
 				seatHold.setReservationId(res.getLong("RESERVATION_ID"));
+				seatHold.setTotalSeatPrice(res.getBigDecimal("PRICE"));
 				return seatHold;
 			}
 		});
@@ -94,6 +96,13 @@ public class SeatHoldDAO {
 	public int updateSeatHoldWithReservation(SeatHold seatHold){
 		String SQL = "UPDATE SEAT_HOLD SET RESERVATION_ID = ? WHERE HOLD_ID=?";
 		int rowsUpdated = jdbcTemplate.update(SQL, seatHold.getReservationId(), seatHold.getId()) ;
+		return rowsUpdated;
+		
+	}
+	
+	public int updateSeatHoldPrice(SeatHold seatHold){
+		String SQL = "UPDATE SEAT_HOLD SET PRICE = ? WHERE HOLD_ID=?";
+		int rowsUpdated = jdbcTemplate.update(SQL, seatHold.getTotalSeatPrice(), seatHold.getId()) ;
 		return rowsUpdated;
 		
 	}

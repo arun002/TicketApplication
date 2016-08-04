@@ -1,13 +1,17 @@
 package com.ticket.beans;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ticket.util.JsonDateSerializer;
 
@@ -26,6 +30,12 @@ public class SeatHold {
 	
 	@JsonIgnore
 	private Long reservationId;
+	
+	@JsonIgnore
+	private BigDecimal totalSeatPrice = new BigDecimal("0.00");
+	
+	@JsonProperty("totalSeatPrice")
+	private String strTotalPrice;
 	
 	private List<Seat> seats = new ArrayList<>();
 
@@ -57,7 +67,7 @@ public class SeatHold {
 		return numSeats;
 	}
 
-	public void setNumSeats(int numSeats) {
+	public void setNumSeats(Integer numSeats) {
 		this.numSeats = numSeats;
 	}
 
@@ -75,6 +85,25 @@ public class SeatHold {
 
 	public void setReservationId(Long reservationId) {
 		this.reservationId = reservationId;
+	}
+
+	public BigDecimal getTotalSeatPrice() {
+		return totalSeatPrice;
+	}
+
+	public void setTotalSeatPrice(BigDecimal totalSeatPrice) {
+		this.totalSeatPrice = totalSeatPrice;
+	}
+
+	public String getStrTotalPrice() {
+		if(null != totalSeatPrice){
+			strTotalPrice = NumberFormat.getCurrencyInstance(Locale.US).format(totalSeatPrice.doubleValue());
+		}
+		return strTotalPrice;
+	}
+
+	public void setStrTotalPrice(String strTotalPrice) {
+		this.strTotalPrice = strTotalPrice;
 	}
 
 }

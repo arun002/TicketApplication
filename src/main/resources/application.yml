@@ -7,6 +7,9 @@ spring:
     username: postgres
     password: postgres
     
+  jmx: 
+    default-domain: TicketApp
+    
 app: 
   ticket: 
     holdExpiryTime: 2 #This is configured in minutes
@@ -14,10 +17,18 @@ app:
     reserveErrorCd: 410
     emailError: Email is different from what enetered while holding the seat
     emailErrorCd: 411
-    holdExpired: Hold is already expired
+    holdExpired: Hold Id is expired or not valid
     holdExprCd: 412
     noFullReqSeatsAvl: Requested Seats are not fully Available
     noReqSeatsAvl: Requested Seats are not Available.
     seatsAvlErrorCd: 413
     genError: Service is unavailable now 
     genErrorCode: 500
+    
+logging:    
+   level:
+     com:
+      ticket: 'DEBUG'
+   file: logs/ticketapp.log
+          
+      

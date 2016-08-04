@@ -1,9 +1,14 @@
 package com.ticket.beans;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Component
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -26,7 +31,13 @@ public class Seat {
 	
 	@JsonIgnore
 	private long reservationId;
-
+	
+	@JsonIgnore
+	private BigDecimal price;
+	
+	@JsonProperty("price")
+	private String strPrice;
+	
 	@JsonIgnore
 	public long getId() {
 		return Id;
@@ -82,6 +93,24 @@ public class Seat {
 
 	public void setReservationId(long reservationId) {
 		this.reservationId = reservationId;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public String getStrPrice() {
+		if(null != price)
+			strPrice =  NumberFormat.getCurrencyInstance(Locale.US).format(price.doubleValue());
+		return strPrice;
+	}
+
+	public void setStrPrice(String strPrice) {
+		this.strPrice = strPrice;
 	}
 
 }
