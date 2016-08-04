@@ -24,6 +24,24 @@ app:
     seatsAvlErrorCd: 413
     genError: Service is unavailable now 
     genErrorCode: 500
+    requestNull: Service request is not valid
+    requestNullErrorCd: 400
+    emailIdNull: Email Id is required
+    emailIdNullErrorCd: 401
+    numSeatsNotValid: numSeats should be greater than 0
+    numSeatsNotValidErrorCode: 402
+    minLevelNotValid: minLevel should be greater than 0
+    minLevelNotValidErrorCode: 403
+    maxLevelNotValid: maxLevel should be greater than 0
+    maxLevelNotValidErrorCode: 404
+    minLevelHigherMaxLevel : minLevel should be less than or equal to maxLevel
+    minLevelHigherMaxLevelErrorCd: 405
+    minMaxLevelLimit: LevelIds are not valid
+    minMaxLevelLimitErrorCd: 406
+    seatHoldNotValid: seatHoldId should be greater than 0
+    seatHoldNotValidErrorCode: 407
+    emailIdNotValid: Email Id is not valid
+    emailIdNotValidErrorCd: 408
     
 logging:    
    level:
