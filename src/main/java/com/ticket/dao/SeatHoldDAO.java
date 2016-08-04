@@ -24,7 +24,7 @@ import com.ticket.util.TicketApplicationUtil;
 public class SeatHoldDAO {
 	
 	@Autowired(required = true)
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate; 
 	
 	private String listOfFileds = "HOLD_ID,EMAIL,HOLD_DATE,NUM_SEATS,RESERVATION_ID";
 	private String filedsForInsert = "EMAIL,HOLD_DATE,NUM_SEATS";

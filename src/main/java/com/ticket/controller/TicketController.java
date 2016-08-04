@@ -88,7 +88,4 @@ public class TicketController {
 		}
 		return ticketResponse;
 	}
-	
-	
-
 }

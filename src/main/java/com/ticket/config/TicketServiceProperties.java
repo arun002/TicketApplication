@@ -5,10 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
+/**
+ * Config/Properties file for Ticket App
+ * The data is JMX enabled , thus can be modified at run time.
+ * @author Arun
+ *
+ */
 @Configuration
 @ConfigurationProperties(prefix = "app.ticket")
 @ManagedResource(objectName = "app.ticket.config:name=TicketServiceProperties", description = "Ticket Service Properties")
 public class TicketServiceProperties {
+	
 	
 	private Long holdExpiryTime;
 	private String reserveAlDone;
@@ -17,14 +24,11 @@ public class TicketServiceProperties {
 	private String emailErrorCd;
 	private String holdExpired;
 	private String holdExprCd;
-	private Integer minLevel;
-	private Integer maxLevel;
 	private String noFullReqSeatsAvl;
 	private String noReqSeatsAvl;
 	private String seatsAvlErrorCd;
 	private String genError;
 	private String genErrorCode;
-	
 	
 	@ManagedAttribute
 	public Long getHoldExpiryTime() {
@@ -95,59 +99,53 @@ public class TicketServiceProperties {
 	public void setHoldExprCd(String holdExprCd) {
 		this.holdExprCd = holdExprCd;
 	}
-	
-	public Integer getMinLevel() {
-		return minLevel;
-	}
 
-	public void setMinLevel(Integer minLevel) {
-		this.minLevel = minLevel;
-	}
-
-	public Integer getMaxLevel() {
-		return maxLevel;
-	}
-
-	public void setMaxLevel(Integer maxLevel) {
-		this.maxLevel = maxLevel;
-	}
-
+	@ManagedAttribute
 	public String getSeatsAvlErrorCd() {
 		return seatsAvlErrorCd;
 	}
 
+	@ManagedAttribute
 	public void setSeatsAvlErrorCd(String seatsAvlErrorCd) {
 		this.seatsAvlErrorCd = seatsAvlErrorCd;
 	}
 
+	@ManagedAttribute
 	public String getGenError() {
 		return genError;
 	}
 
+	@ManagedAttribute
 	public void setGenError(String genError) {
 		this.genError = genError;
 	}
 
+	@ManagedAttribute
 	public String getGenErrorCode() {
 		return genErrorCode;
 	}
 
+	@ManagedAttribute
 	public void setGenErrorCode(String genErrorCode) {
 		this.genErrorCode = genErrorCode;
 	}
 
+	@ManagedAttribute
 	public String getNoFullReqSeatsAvl() {
 		return noFullReqSeatsAvl;
 	}
 
+	@ManagedAttribute
 	public void setNoFullReqSeatsAvl(String noFullReqSeatsAvl) {
 		this.noFullReqSeatsAvl = noFullReqSeatsAvl;
 	}
 
+	@ManagedAttribute
 	public String getNoReqSeatsAvl() {
 		return noReqSeatsAvl;
 	}
 
+	@ManagedAttribute
 	public void setNoReqSeatsAvl(String noReqSeatsAvl) {
 		this.noReqSeatsAvl = noReqSeatsAvl;
 	}

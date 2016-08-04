@@ -19,8 +19,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ticket.beans.Seat;
 
-
-
 @Repository
 public class SeatDAO {
 

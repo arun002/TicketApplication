@@ -16,19 +16,16 @@ import com.ticket.beans.Reservation;
 import com.ticket.beans.Seat;
 import com.ticket.beans.SeatHold;
 import com.ticket.beans.Venue;
+import com.ticket.config.TicketServiceConfig;
 import com.ticket.config.TicketServiceProperties;
 import com.ticket.dao.ReservationDAO;
 import com.ticket.dao.SeatDAO;
 import com.ticket.dao.SeatHoldDAO;
-import com.ticket.dao.VenueDAO;
 import com.ticket.exception.TicketServiceException;
 import com.ticket.util.TicketApplicationUtil;
 
 @Component
 public class TicketReservation {
-	
-	@Autowired
-	private VenueDAO venueDAO;
 	
 	@Autowired
 	private ReservationDAO reservDAO;
@@ -52,13 +49,15 @@ public class TicketReservation {
 			int numOfSeatsAvl = 0;
 			int numOfReservedSeats = 0;
 			if(null != levelId){
-				Venue venue = venueDAO.readByLevelId(levelId);
+				Venue venue = TicketServiceConfig.venueList.get(levelId-1);
+				//Venue venue = venueDAO.readByLevelId(levelId);
 				if(null != venue) {
 					venueList.add(venue);
 				}
 			}
 			else{
-				venueList = venueDAO.readAll();
+				venueList = TicketServiceConfig.venueList;
+				//venueList = venueDAO.readAll();
 			}
 			if(null != venueList && venueList.size() > 0){
 				for(Venue venue : venueList){
@@ -88,14 +87,14 @@ public class TicketReservation {
 			Map<Integer, Venue> venueMap = populateVenueDetails();
 			int tmpNoSeatsReq = numSeatsReq;
 			if(null == minLevel && null != maxLevel) {
-				minLevel = serviceProperties.getMinLevel();
+				minLevel = TicketServiceConfig.minLevel;
 			}
 			else if(null == maxLevel && null != minLevel) {
-				maxLevel = serviceProperties.getMaxLevel();
+				maxLevel = TicketServiceConfig.maxLevel;
 			}
 			else if(null == minLevel && null == maxLevel){
-				minLevel = serviceProperties.getMinLevel();
-				maxLevel = serviceProperties.getMaxLevel();
+				minLevel = TicketServiceConfig.minLevel;
+				maxLevel = TicketServiceConfig.maxLevel;
 			}
 			if(null != minLevel && null != maxLevel){
 				//Stored requested seats and its level based on the availability
@@ -119,7 +118,7 @@ public class TicketReservation {
 				// requested seats are not available for the requested levels
 				if(tmpNoSeatsReq > 0){ 
 					if(numSeatsAvl > 0){ // only these seats are available for the level
-						throw new TicketServiceException(serviceProperties.getNoFullReqSeatsAvl()+" "+numSeatsAvl,serviceProperties.getSeatsAvlErrorCd());
+						throw new TicketServiceException(serviceProperties.getNoFullReqSeatsAvl(),serviceProperties.getSeatsAvlErrorCd());
 					}
 					else{
 						throw new TicketServiceException(serviceProperties.getNoReqSeatsAvl(),serviceProperties.getSeatsAvlErrorCd());
@@ -274,7 +273,8 @@ public class TicketReservation {
 	}
 	
 	private Map<Integer,Venue> populateVenueDetails(){
-		List<Venue> venueList = venueDAO.readAll();
+		//List<Venue> venueList = venueDAO.readAll();
+		List<Venue> venueList = TicketServiceConfig.venueList;
 		Map<Integer,Venue> venueMap = new HashMap<>();
 		for(Venue venue : venueList){
 			venueMap.put(venue.getLevelId(), venue);
@@ -302,12 +302,10 @@ public class TicketReservation {
 			holdIds.add(seatHold.getId());
 		}
 		if(null != holdIds && holdIds.size() >0){
-			// Delete all the expired hold ids from seats
+			// Batch Delete all the expired hold ids from seats
 			int seatRows = seatDAO.deleteSeatsForHoldIds(holdIds);
-			System.out.println("seatRows deleted "+seatRows);
-			//Delete all the expired hold ids from seat hold
+			//Batch Delete all the expired hold ids from seat hold
 			int seatHoldRows = seatHoldDAO.deleteExpiredHoldIds(holdIds);
-			System.out.println("seatHoldRows deleted "+seatHoldRows);
 		}
 	}
 }
