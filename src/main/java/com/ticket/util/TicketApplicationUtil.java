@@ -14,7 +14,7 @@ public class TicketApplicationUtil {
 	 
 	 public static long getTimeDiffInMinutes(Date date){
         long diffSec= (System.currentTimeMillis() - date.getTime())/1000;
-        return diffSec/60;
+        return diffSec;
 	 }
 
 }

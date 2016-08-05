@@ -17,7 +17,7 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 public class TicketServiceProperties {
 	
 	
-	private Double holdExpiryTime;
+	private Integer holdExpiryTime;
 	private String reserveAlDone;
 	private String reserveErrorCd;
 	private String emailError;
@@ -54,12 +54,12 @@ public class TicketServiceProperties {
 	
 	
 	@ManagedAttribute
-	public Double getHoldExpiryTime() {
+	public Integer getHoldExpiryTime() {
 		return holdExpiryTime;
 	}
 	
 	@ManagedAttribute
-	public void setHoldExpiryTime(Double holdExpiryTime) {
+	public void setHoldExpiryTime(Integer holdExpiryTime) {
 		this.holdExpiryTime = holdExpiryTime;
 	}
 	

@@ -19,14 +19,14 @@ Notes
 Assumptions :
 
 1. User does not have the ability to select particular seats, while holding. They only have the ability to select seating levels.
-2. Application/system will find and hold the seats on behalf of the user.
+2. Application/system will find and hold the seats on behalf of the user based on the levels requested.
 3. No notification process implemented while expiring the hold ids.
-4. Confirmation code is a random generated code and is not persisted in database.
 
 Design Decisions :
 
 1. User has the ability to see the total price as well as individual selected seat price,  while holding the seat. 
-2. Seat Hold Id expiry time is JMX enabled and thus can be changed dynamically via JConsole.
+2. Seat Hold Expiry time is configured in seconds and currently set it as 60s.
+2. Seat Hold Expiry time is JMX enabled and thus can be changed dynamically via JConsole.
 3. For every service request,  there is a purge process happening to remove the expired hold ids.
 4. Service health check is available , using spring boot actuator (http://localhost:8080/health)
 5. Confirmation code after reservation is persisted to the table.
@@ -321,6 +321,8 @@ Scenario : If there is any server side code error
 #Testing Results
 
 Tests are run during the build process. Run the below command, to run it seperately.
+
+Note : I have skipped 3 test cases as it involves the check for the hold expiry time, which takes time for completing the build process.If this needs to be run, remove the annotation - @Ignore from these test methods and run it again.
 
 mvn test
 

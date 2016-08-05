@@ -387,8 +387,7 @@ public class TicketApplicationTests {
 		SeatHold seatHold = ticketService.findAndHoldSeats(2, null, null, "test10@gmail.com");
 		String confirmationCode = null;
 		try{
-			Double time = properties.getHoldExpiryTime()*60*1000;
-			Thread.sleep(time.longValue());
+			Thread.sleep( properties.getHoldExpiryTime()*1000);
 			confirmationCode = ticketService.reserveSeats(seatHold.getId(),seatHold.getEmail());
 		} catch (TicketServiceException tex){
 			assertNotNull(tex);
@@ -447,6 +446,7 @@ public class TicketApplicationTests {
 		assertEquals(seatsAvl -2 , ticketService.numSeatsAvailable(null));
 	}
 	
+	
 	@Test
 	public void testAvailableSeatsForLevelAfterHoldAndReservation() throws TicketServiceException {
 		int seatsAvl = ticketService.numSeatsAvailable(4);
@@ -459,20 +459,20 @@ public class TicketApplicationTests {
 	@Ignore
 	@Test
 	public void testTotalAvailableSeatsAfterHoldExpiry() throws TicketServiceException, InterruptedException {
+		Thread.sleep(properties.getHoldExpiryTime()*1000);
 		int seatsAvl = ticketService.numSeatsAvailable(null);
 		ticketService.findAndHoldSeats(2, null, null, "test13@gmail.com");
-		Double time = properties.getHoldExpiryTime()*60*1000;
-		Thread.sleep(time.longValue()+1000);
+		Thread.sleep(properties.getHoldExpiryTime()*1000);
 		assertEquals(seatsAvl, ticketService.numSeatsAvailable(null));
 	}
 	
 	@Ignore
 	@Test
 	public void testAvailableSeatsForLevelAfterHoldExpiry() throws TicketServiceException, InterruptedException {
+		Thread.sleep(properties.getHoldExpiryTime()*1000);
 		int seatsAvl = ticketService.numSeatsAvailable(2);
 		ticketService.findAndHoldSeats(1, 2, 2, "test13@gmail.com");
-		Double time = properties.getHoldExpiryTime()*60*1000;
-		Thread.sleep(time.longValue()+1000);
+		Thread.sleep(properties.getHoldExpiryTime()*1000);
 		assertEquals(seatsAvl, ticketService.numSeatsAvailable(2));
 	}
 	

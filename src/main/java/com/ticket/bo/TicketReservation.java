@@ -2,12 +2,14 @@ package com.ticket.bo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -364,7 +366,7 @@ public class TicketReservation {
 		if(null != seatHold){
 			if(null != seatHold.getHoldDate()){
 				long timeDiff = TicketApplicationUtil.getTimeDiffInMinutes(seatHold.getHoldDate());
-				logger.info("Hold Expiry time is "+serviceProperties.getHoldExpiryTime()+"minutes");
+				logger.info("Hold Expiry time is "+serviceProperties.getHoldExpiryTime()+"seconds");
 				if(serviceProperties.getHoldExpiryTime() > timeDiff){
 					logger.info("Hold id - "+ seatHold.getId() +"is NOT expired");
 					return false;
@@ -381,7 +383,7 @@ public class TicketReservation {
 	 */
 	private void removeExpiredSeatHolds() {
 		//Get all the expired hold ids from Seat Hold 
-		List<SeatHold> seatHoldList = seatHoldDAO.readAllExpiredHolds(serviceProperties.getHoldExpiryTime());
+		List<SeatHold> seatHoldList = seatHoldDAO.readAllExpiredHolds(getExpiredDurationDate(serviceProperties.getHoldExpiryTime()));
 		List<Long> holdIds = new ArrayList<>();
 		if(null != seatHoldList && seatHoldList.size() > 0){
 			for(SeatHold seatHold : seatHoldList){
@@ -397,4 +399,12 @@ public class TicketReservation {
 			}
 		}
 	}
+	
+	private Date getExpiredDurationDate(int expiryTime){
+		Date date = new Date( ); // Instantiate a Date object
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cal.setTime(date);
+		cal.add(Calendar.SECOND, -expiryTime);
+		return cal.getTime();
+	} 
 }

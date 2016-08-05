@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +29,8 @@ public class ReservationDAO {
 	
 	private String fieldsForInsert = "CONFIRM_CODE,EMAIL,CONFIRM_DATE,NUM_SEATS,PRICE";
 	
+	public static final Calendar tzUTC = Calendar.getInstance(TimeZone.getTimeZone("UTC")); 
+	
 	public List<Reservation> readByLevel(Integer levelId){
 		String SQL = "SELECT "+listOfFields+" FROM RESERVATION WHERE LEVEL_ID = ?";
 		List<Reservation> reservationList = jdbcTemplate.query(SQL, new Object[]{levelId}, new RowMapper<Reservation>() {
@@ -36,7 +40,7 @@ public class ReservationDAO {
 				reservation.setId(res.getInt("RESERVE_ID"));
 				reservation.setConfirmationCode(res.getString("CONFIRM_CODE"));
 				reservation.setEmail(res.getString("EMAIL"));
-				reservation.setConfirmationDate(res.getTimestamp("CONFIRM_DATE"));
+				reservation.setConfirmationDate(res.getTimestamp("CONFIRM_DATE",tzUTC));
 				reservation.setNumSeats(res.getInt("NUM_SEATS"));
 				reservation.setPrice(res.getBigDecimal("PRICE"));
 				return reservation;
@@ -57,7 +61,7 @@ public class ReservationDAO {
 				int i=0;
 				statement.setString(++i, reservation.getConfirmationCode());
 				statement.setString(++i, reservation.getEmail());
-				statement.setTimestamp(++i, TicketApplicationUtil.covertToSQLTimestamp(reservation.getConfirmationDate()) );
+				statement.setTimestamp(++i, TicketApplicationUtil.covertToSQLTimestamp(reservation.getConfirmationDate()),tzUTC);
 				statement.setInt(++i, reservation.getNumSeats());
 				statement.setBigDecimal(++i, reservation.getPrice());
 				return statement;

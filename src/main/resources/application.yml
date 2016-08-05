@@ -12,7 +12,7 @@ spring:
     
 app: 
   ticket: 
-    holdExpiryTime: 1 #This is configured in minutes
+    holdExpiryTime: 60 #This is configured in seconds
     reserveAlDone: Already made the reservation with the same hold id 
     reserveErrorCd: 410
     emailError: Email is different from what entered while holding the seat
