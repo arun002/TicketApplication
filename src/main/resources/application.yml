@@ -15,7 +15,7 @@ app:
     holdExpiryTime: 1 #This is configured in minutes
     reserveAlDone: Already made the reservation with the same hold id 
     reserveErrorCd: 410
-    emailError: Email is different from what enetered while holding the seat
+    emailError: Email is different from what entered while holding the seat
     emailErrorCd: 411
     holdExpired: Hold Id is expired or not valid
     holdExprCd: 412
