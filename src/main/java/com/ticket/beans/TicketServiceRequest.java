@@ -13,7 +13,7 @@ public class TicketServiceRequest {
 	
 	private Integer numSeats;
 	
-	private Integer seatHoldId;
+	private Long seatHoldId;
 
 	public String getEmailId() {
 		return emailId;
@@ -47,11 +47,11 @@ public class TicketServiceRequest {
 		this.numSeats = numSeats;
 	}
 
-	public Integer getSeatHoldId() {
+	public Long getSeatHoldId() {
 		return seatHoldId;
 	}
 
-	public void setSeatHoldId(Integer seatHoldId) {
+	public void setSeatHoldId(Long seatHoldId) {
 		this.seatHoldId = seatHoldId;
 	}
 }

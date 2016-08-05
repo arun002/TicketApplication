@@ -17,7 +17,7 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 public class TicketServiceProperties {
 	
 	
-	private Long holdExpiryTime;
+	private Double holdExpiryTime;
 	private String reserveAlDone;
 	private String reserveErrorCd;
 	private String emailError;
@@ -35,6 +35,8 @@ public class TicketServiceProperties {
 	private String emailIdNullErrorCd;
 	private String numSeatsNotValid;
 	private String numSeatsNotValidErrorCode;
+	private String numSeatsReqd;
+	private String numSeatsReqdErrorCode;
 	private String minLevelNotValid;
 	private String minLevelNotValidErrorCode;
 	private String maxLevelNotValid;
@@ -47,15 +49,17 @@ public class TicketServiceProperties {
 	private String seatHoldNotValidErrorCode;
 	private String emailIdNotValid;
 	private String emailIdNotValidErrorCd;
+	private String seatHoldNull;
+	private String seatHoldNullErrorCode;
 	
 	
 	@ManagedAttribute
-	public Long getHoldExpiryTime() {
+	public Double getHoldExpiryTime() {
 		return holdExpiryTime;
 	}
 	
 	@ManagedAttribute
-	public void setHoldExpiryTime(Long holdExpiryTime) {
+	public void setHoldExpiryTime(Double holdExpiryTime) {
 		this.holdExpiryTime = holdExpiryTime;
 	}
 	
@@ -347,5 +351,45 @@ public class TicketServiceProperties {
 	@ManagedAttribute
 	public void setEmailIdNotValidErrorCd(String emailIdNotValidErrorCd) {
 		this.emailIdNotValidErrorCd = emailIdNotValidErrorCd;
+	}
+
+	@ManagedAttribute
+	public String getNumSeatsReqd() {
+		return numSeatsReqd;
+	}
+
+	@ManagedAttribute
+	public void setNumSeatsReqd(String numSeatsReqd) {
+		this.numSeatsReqd = numSeatsReqd;
+	}
+
+	@ManagedAttribute
+	public String getNumSeatsReqdErrorCode() {
+		return numSeatsReqdErrorCode;
+	}
+
+	@ManagedAttribute
+	public void setNumSeatsReqdErrorCode(String numSeatsReqdErrorCode) {
+		this.numSeatsReqdErrorCode = numSeatsReqdErrorCode;
+	}
+
+	@ManagedAttribute
+	public String getSeatHoldNull() {
+		return seatHoldNull;
+	}
+
+	@ManagedAttribute
+	public void setSeatHoldNull(String seatHoldNull) {
+		this.seatHoldNull = seatHoldNull;
+	}
+
+	@ManagedAttribute
+	public String getSeatHoldNullErrorCode() {
+		return seatHoldNullErrorCode;
+	}
+
+	@ManagedAttribute
+	public void setSeatHoldNullErrorCode(String seatHoldNullErrorCode) {
+		this.seatHoldNullErrorCode = seatHoldNullErrorCode;
 	}
 }

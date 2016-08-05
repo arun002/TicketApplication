@@ -12,7 +12,7 @@ spring:
     
 app: 
   ticket: 
-    holdExpiryTime: 2 #This is configured in minutes
+    holdExpiryTime: 1 #This is configured in minutes
     reserveAlDone: Already made the reservation with the same hold id 
     reserveErrorCd: 410
     emailError: Email is different from what enetered while holding the seat
@@ -40,13 +40,11 @@ app:
     minMaxLevelLimitErrorCd: 406
     seatHoldNotValid: seatHoldId should be greater than 0
     seatHoldNotValidErrorCode: 407
+    seatHoldNull: seatHoldId is required
+    seatHoldNullErrorCode: 408
     emailIdNotValid: Email Id is not valid
-    emailIdNotValidErrorCd: 408
-    
-logging:    
-   level:
-     com:
-      ticket: 'DEBUG'
-   file: logs/ticketapp.log
+    emailIdNotValidErrorCd: 409
+    numSeatsReqd: numSeats is required
+    numSeatsReqdErrorCode: 410
           
       

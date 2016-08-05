@@ -38,6 +38,7 @@ public class TicketServiceValidator {
 	
 	private static Pattern pattern = Pattern.compile(regex);
 
+	
 	/**
 	 * 
 	 * @param ticketRequest
@@ -61,11 +62,18 @@ public class TicketServiceValidator {
 	public List<ServiceError> validateReserveSeatsRequest(TicketServiceRequest ticketRequest) {
 		if(null != ticketRequest){
 			validateEmailId(ticketRequest.getEmailId());
-			if(null == ticketRequest.getSeatHoldId() || ticketRequest.getSeatHoldId() <= 0){
-				logger.error("SeatHoldId() is null or zero or negative");
+			if(null == ticketRequest.getSeatHoldId()){
+				logger.error("SeatHoldId is null");
 				ServiceError error = new ServiceError();
-				error.setErrorCode(properties.getSeatHoldNotValid());
-				error.setErrorMessage(properties.getSeatHoldNotValidErrorCode());
+				error.setErrorMessage(properties.getSeatHoldNull());
+				error.setErrorCode(properties.getSeatHoldNullErrorCode());
+				errorList.add(error);
+			}
+			else if(ticketRequest.getSeatHoldId() <= 0){
+				logger.error("SeatHoldId is zero or negative");
+				ServiceError error = new ServiceError();
+				error.setErrorMessage(properties.getSeatHoldNotValid());
+				error.setErrorCode(properties.getSeatHoldNotValidErrorCode());
 				errorList.add(error);
 			}
 		}else{
@@ -81,11 +89,18 @@ public class TicketServiceValidator {
 	 */
 	private void validateManadatoryParams(String emailId, Integer numSeats) {
 		validateEmailId(emailId);
-		if(null == numSeats || numSeats <= 0){
-			logger.error("numSeats is null or zero or negative");
+		if(null == numSeats){
+			logger.error("numSeats is null");
 			ServiceError error = new ServiceError();
-			error.setErrorCode(properties.getNumSeatsNotValid());
-			error.setErrorMessage(properties.getNumSeatsNotValidErrorCode());
+			error.setErrorMessage(properties.getNumSeatsReqd());
+			error.setErrorCode(properties.getNumSeatsReqdErrorCode());
+			errorList.add(error);
+		}
+		else if (numSeats <= 0){
+			logger.error("numSeats is zero or negative");
+			ServiceError error = new ServiceError();
+			error.setErrorMessage(properties.getNumSeatsNotValid());
+			error.setErrorCode(properties.getNumSeatsNotValidErrorCode());
 			errorList.add(error);
 		}
 	}
@@ -94,22 +109,22 @@ public class TicketServiceValidator {
 		if(null != minLevel && minLevel <= 0){
 			logger.error("minLevel is zero or negative");
 			ServiceError error = new ServiceError();
-			error.setErrorCode(properties.getMinLevelNotValid());
-			error.setErrorMessage(properties.getMinLevelNotValidErrorCode());
+			error.setErrorMessage(properties.getMinLevelNotValid());
+			error.setErrorCode(properties.getMinLevelNotValidErrorCode());
 			errorList.add(error);
 		}
 		if(null != maxLevel && maxLevel <= 0){
 			logger.error("maxLevel is zero or negative");
 			ServiceError error = new ServiceError();
-			error.setErrorCode(properties.getMaxLevelNotValid());
-			error.setErrorMessage(properties.getMaxLevelNotValidErrorCode());
+			error.setErrorMessage(properties.getMaxLevelNotValid());
+			error.setErrorCode(properties.getMaxLevelNotValidErrorCode());
 			errorList.add(error);
 		}
 		if(null != minLevel && null != maxLevel &&  minLevel > maxLevel){
 			logger.error("minLevel is higher than maxLevel");
 			ServiceError error = new ServiceError();
-			error.setErrorCode(properties.getMinLevelHigherMaxLevel());
-			error.setErrorMessage(properties.getMinLevelHigherMaxLevelErrorCd());
+			error.setErrorMessage(properties.getMinLevelHigherMaxLevel());
+			error.setErrorCode(properties.getMinLevelHigherMaxLevelErrorCd());
 			errorList.add(error);
 		}
 		validateLevelswithinLimit(minLevel,maxLevel);
@@ -121,8 +136,8 @@ public class TicketServiceValidator {
 		if(null != minLevel && null != maxLevel && (minLevel > maximumLevel || maxLevel > maximumLevel)){
 			logger.error("Levelids are out side the limit");
 			ServiceError error = new ServiceError();
-			error.setErrorCode(properties.getMinMaxLevelLimit());
-			error.setErrorMessage(properties.getMinMaxLevelLimitErrorCd());
+			error.setErrorMessage(properties.getMinMaxLevelLimit());
+			error.setErrorCode(properties.getMinMaxLevelLimitErrorCd());
 			errorList.add(error);
 		}
 	}
@@ -131,16 +146,16 @@ public class TicketServiceValidator {
 		if(!StringUtils.hasText(emailId)){
 			logger.error("emailId is null or empty");
 			ServiceError error = new ServiceError();
-			error.setErrorCode(properties.getEmailIdNull());
-			error.setErrorMessage(properties.getEmailIdNullErrorCd());
+			error.setErrorMessage(properties.getEmailIdNull());
+			error.setErrorCode(properties.getEmailIdNullErrorCd());
 			errorList.add(error);
 		}else{
 			Matcher matcher = pattern.matcher(emailId);
 			if(!matcher.matches()){
 				logger.error("emailId is null or empty");
 				ServiceError error = new ServiceError();
-				error.setErrorCode(properties.getEmailIdNotValid());
-				error.setErrorMessage(properties.getEmailIdNotValidErrorCd());
+				error.setErrorMessage(properties.getEmailIdNotValid());
+				error.setErrorCode(properties.getEmailIdNotValidErrorCd());
 				errorList.add(error);
 			}
 		}

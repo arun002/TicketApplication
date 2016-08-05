@@ -47,22 +47,27 @@ public class TicketReservation {
 
 	public int getNumberOfSeatsAvl(Integer levelId, boolean isExpired) throws TicketServiceException {
 		try{
-			if(!isExpired){
-				logger.debug("Started Removing the expired seat holds");
-				removeExpiredSeatHolds();
-				logger.debug("Done Removing the expired seat holds");
-			}
 			List<Venue> venueList = new ArrayList<>();
 			int numOfSeatsAvl = 0;
 			int numOfReservedSeats = 0;
 			if(null != levelId){
-				Venue venue = TicketServiceConfig.venueList.get(levelId-1);
-				if(null != venue) {
-					venueList.add(venue);
+				try{
+					Venue venue = TicketServiceConfig.venueList.get(levelId-1);
+					if(null != venue) {
+						venueList.add(venue);
+					}
+				} catch (Exception ex){
+					logger.error("Level Id is not valid "+levelId);
+					return 0;
 				}
 			}
 			else{
 				venueList = TicketServiceConfig.venueList;
+			}
+			if(!isExpired){
+				logger.debug("Started Removing the expired seat holds");
+				removeExpiredSeatHolds();
+				logger.debug("Done Removing the expired seat holds");
 			}
 			if(null != venueList && venueList.size() > 0){
 				for(Venue venue : venueList){

@@ -72,7 +72,7 @@ public class SeatHoldDAO {
 		}		
 	}
 	
-	public List<SeatHold> readAllExpiredHolds(long expiryTtime){
+	public List<SeatHold> readAllExpiredHolds(double expiryTtime){
 		String SQL = "SELECT "+listOfFileds+" FROM SEAT_HOLD WHERE (SELECT  (DATE_PART('day', current_timestamp::timestamp - HOLD_DATE::timestamp) * 24 + " +
                "DATE_PART('hour', current_timestamp::timestamp - HOLD_DATE::timestamp)) * 60 + "+
                "DATE_PART('minute', current_timestamp::timestamp - HOLD_DATE::timestamp)) > ? AND RESERVATION_ID IS NULL";

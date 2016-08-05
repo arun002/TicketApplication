@@ -40,5 +40,4 @@ public class TicketServiceException extends Exception{
 		this.errorCode = errorCode;
 	}
 
-
 }

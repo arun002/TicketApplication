@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ 	<properties>
+		<property name="log-path">logs</property>
+	</properties>
+ 	 
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT"> 
+			<!-- https://logging.apache.org/log4j/2.x/manual/layouts.html-->
+			<PatternLayout pattern="%highlight{[%-5p] %d{DATE} %c{1}-%M - %m%n}{FATAL=red, ERROR=red, WARN=blue, INFO=black, DEBUG=green, TRACE=green}"/>
+		</Console>
+		<RollingRandomAccessFile  name="rollingRandomFile" fileName="${log-path}/ticket-app.log"
+						filePattern="${log-path}/${date:yyyy-MM}/ticketapp-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<pattern>%highlight{[%-5p] %d{DATE}-[%t] %.40c{1}-%.35M : %m%n}</pattern>
+			</PatternLayout>
+			<Policies>
+        		<SizeBasedTriggeringPolicy size="2 MB"/>
+      		</Policies>
+      		<DefaultRolloverStrategy max="99"/>			
+		</RollingRandomAccessFile >
+	</Appenders>
+	<Loggers>
+		<Logger name="org.springframework" level="warn" additivity="false">
+			<AppenderRef ref="rollingRandomFile"/>
+		</Logger>
+		<Logger name="org.springframework.web" level="warn" additivity="false">
+			<AppenderRef ref="rollingRandomFile"/>
+		</Logger>
+		<Logger name="org.hibernate" level="warn" additivity="false">
+			<AppenderRef ref="rollingRandomFile"/>
+		</Logger>
+		<Root level="DEBUG">
+			<AppenderRef ref="console"/>
+			<AppenderRef ref="rollingRandomFile"/>
+		</Root>
+	</Loggers>
+</configuration>

@@ -2,7 +2,6 @@ package com.ticket.util;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class TicketApplicationUtil {
 	
