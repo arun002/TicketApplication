@@ -28,7 +28,7 @@ Design Decisions :
 1. User has the ability to see the total price as well as individual selected seat price,  while holding the seat. 
 2. Seat Hold Id expiry time is JMX enabled and thus can be changed dynamically via JConsole.
 3. For every service request,  there is a purge process happening to remove the expired hold ids.
-4. Service health check implemented using spring boot actuator (http://localhost:8080/health)
+4. Service health check is available , using spring boot actuator (http://localhost:8080/health)
 5. Confirmation code after reservation is persisted to the table.
 
 
@@ -326,5 +326,16 @@ mvn test
 
 #DB Schema
 
+Tables created :
+
+VENUE 
+
+SEAT_HOLD 
+
+SEATS
+
+RESERVATION
+
+Details of the columns are available in schema.sql (https://github.com/arun002/TicketApplication/blob/master/src/main/resources/schema.sql) 
 
 
